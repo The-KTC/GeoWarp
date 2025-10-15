@@ -24,3 +24,5 @@ java {
 tasks.jar {
     archiveBaseName.set("GeoWarp")
 }
+tasks.withType<JavaCompile> { options.encoding = "UTF-8" }
+tasks.processResources { filteringCharset = "UTF-8" }

@@ -91,7 +91,78 @@ public class WarpStore {
         return keys("places." + land + "." + city + ".streets." + street + ".numbers");
     }
 
-    /* ---------- helpers ---------- */
+    // --- REMOVE ---
+
+    public boolean removeCountryAnchor(String land) {
+        String base = "places." + land;
+        if (!hasAnchor(base))
+            return false;
+        cfg.set(base + "._anchor", null);
+        cleanupCascade(base);
+        return true;
+    }
+
+    public boolean removeCityAnchor(String land, String stadt) {
+        String base = "places." + land + "." + stadt;
+        if (!hasAnchor(base))
+            return false;
+        cfg.set(base + "._anchor", null);
+        cleanupCascade(base);
+        return true;
+    }
+
+    public boolean removeStreetAnchor(String land, String stadt, String strasse) {
+        String base = "places." + land + "." + stadt + ".streets." + strasse;
+        if (!hasAnchor(base))
+            return false;
+        cfg.set(base + "._anchor", null);
+        cleanupCascade(base);
+        return true;
+    }
+
+    public boolean removeAddress(String land, String stadt, String strasse, String hausnr) {
+        String nPath = "places." + land + "." + stadt + ".streets." + strasse + ".numbers." + hausnr;
+        if (cfg.get(nPath) == null)
+            return false;
+        cfg.set(nPath, null);
+        // leere numbers/streets/city/land wegräumen
+        String numbers = "places." + land + "." + stadt + ".streets." + strasse + ".numbers";
+        cleanupIfEmpty(numbers);
+        cleanupCascade("places." + land + "." + stadt + ".streets." + strasse);
+        return true;
+    }
+
+    // --- Helpers ---
+
+    private void cleanupCascade(String base) {
+        // base selbst
+        cleanupIfEmpty(base);
+        // ggf. streets-Container
+        if (base.contains(".streets.")) {
+            String streets = base.substring(0, base.indexOf(".streets.")) + ".streets";
+            cleanupIfEmpty(streets);
+            String city = base.substring(0, base.indexOf(".streets."));
+            cleanupIfEmpty(city);
+            String land = city.substring(0, city.lastIndexOf('.'));
+            cleanupIfEmpty(land);
+        } else {
+            // city/land Ebene
+            int dot = base.lastIndexOf('.');
+            if (dot > 0) {
+                String parent = base.substring(0, dot);
+                cleanupIfEmpty(parent);
+                int dot2 = parent.lastIndexOf('.');
+                if (dot2 > 0)
+                    cleanupIfEmpty(parent.substring(0, dot2));
+            }
+        }
+    }
+
+    private void cleanupIfEmpty(String path) {
+        var s = cfg.getConfigurationSection(path);
+        if (s != null && s.getKeys(false).isEmpty())
+            cfg.set(path, null);
+    }
 
     private void ensure(String path) {
         if (cfg.getConfigurationSection(path) == null)
@@ -130,5 +201,21 @@ public class WarpStore {
         Set<String> out = new HashSet<>(s.getKeys(false));
         out.remove("_anchor");
         return out;
+    }
+
+    public boolean hasCountryAnchor(String land) {
+        return hasAnchor("places." + land);
+    }
+
+    public boolean hasCityAnchor(String land, String stadt) {
+        return hasAnchor("places." + land + "." + stadt);
+    }
+
+    public boolean hasStreetAnchor(String land, String stadt, String strasse) {
+        return hasAnchor("places." + land + "." + stadt + ".streets." + strasse);
+    }
+
+    private boolean hasAnchor(String base) {
+        return cfg.getString(base + "._anchor.world") != null;
     }
 }

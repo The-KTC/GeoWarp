@@ -4,10 +4,12 @@ version: 1.0.0
 api-version: "1.21"
 commands:
   warp:
-    description: Warp per Land/Stadt/Straße/Hausnr mit Anchors
+    description: Warp mit Anchors, Listen, Add & Remove
     usage: |
       /warp <Land> [Stadt] [Straße] [Hausnr]
       /warp add <Land> [Stadt] [Straße] [Hausnr]
+      /warp remove <Land> [Stadt] [Straße] [Hausnr]
+      /warp list [Land] [Stadt] [Straße]
     permission: warp.use
 permissions:
   warp.use: { default: true }
