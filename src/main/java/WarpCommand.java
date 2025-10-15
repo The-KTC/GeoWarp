@@ -31,6 +31,22 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
         // ---- Subcommands zuerst behandeln ----
         String sub = a[0].toLowerCase(Locale.ROOT);
 
+        /* ---------- EXPORT (Backup) ---------- */
+        if (sub.equals("export")) {
+            if (!sender.hasPermission("warp.admin")) {
+                sender.sendMessage(ChatColor.RED + "Keine Berechtigung.");
+                return true;
+            }
+            try {
+                var file = plugin.backupWarps(); // legt Kopie unter plugins/GeoWarp/backups/ an
+                sender.sendMessage(ChatColor.GREEN + "Export erstellt: " + ChatColor.AQUA + "plugins/GeoWarp/backups/"
+                        + file.getName());
+            } catch (Exception e) {
+                sender.sendMessage(ChatColor.RED + "Export fehlgeschlagen: " + e.getMessage());
+            }
+            return true;
+        }
+
         /* ---------- LIST ---------- */
         if (sub.equals("list")) {
             switch (a.length) {
@@ -236,6 +252,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
         s.sendMessage("§e/" + label + " add <Land> [Stadt] [Straße] [Hausnr]");
         s.sendMessage("§e/" + label + " remove <Land> [Stadt] [Straße] [Hausnr]");
         s.sendMessage("§e/" + label + " list [Land] [Stadt] [Straße]");
+        s.sendMessage("§e/" + label + " export");
     }
 
     private void suggestNext(CommandSender s, String suggest) {
@@ -252,6 +269,7 @@ public class WarpCommand implements CommandExecutor, TabCompleter {
             out.add("add");
             out.add("list");
             out.add("remove");
+            out.add("export");
             out.addAll(store.lands());
         } else if (a[0].equalsIgnoreCase("list")) {
             if (a.length == 2)

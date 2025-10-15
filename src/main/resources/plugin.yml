@@ -10,6 +10,7 @@ commands:
       /warp add <Land> [Stadt] [Straße] [Hausnr]
       /warp remove <Land> [Stadt] [Straße] [Hausnr]
       /warp list [Land] [Stadt] [Straße]
+      /warp export
     permission: warp.use
 permissions:
   warp.use: { default: true }
