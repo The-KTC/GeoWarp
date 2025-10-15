@@ -4,13 +4,11 @@ version: 1.0.0
 api-version: "1.21"
 commands:
   warp:
-    description: Teleport to any city, street or even house
+    description: Warp per Land/Stadt/Straße/Hausnr mit Anchors
     usage: |
-      /warp <Country> <Town> <Street> <Housenumber>
-      /warp add <Country> <Town> <Street> <Housenumber> [x y z]
+      /warp <Land> [Stadt] [Straße] [Hausnr]
+      /warp add <Land> [Stadt] [Straße] [Hausnr]
     permission: warp.use
 permissions:
-  warp.use:
-    default: true
-  warp.admin:
-    default: op
+  warp.use: { default: true }
+  warp.admin: { default: op }
