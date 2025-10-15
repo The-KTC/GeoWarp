@@ -1,0 +1,16 @@
+name: GeoWarp
+main: GeoWarp
+version: 1.0.0
+api-version: "1.21"
+commands:
+  warp:
+    description: Teleport to any city, street or even house
+    usage: |
+      /warp <Country> <Town> <Street> <Housenumber>
+      /warp add <Country> <Town> <Street> <Housenumber> [x y z]
+    permission: warp.use
+permissions:
+  warp.use:
+    default: true
+  warp.admin:
+    default: op

@@ -1,0 +1,1 @@
+c:\gradle-9.2.0-rc-1\bin\gradle.bat clean build
