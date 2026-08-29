@@ -1,5 +1,7 @@
 # GeoWarp
 
+![GeoWarp Demo](assets/geowarp-demo.gif)
+
 A lightweight Paper plugin that lets players warp to **named places** instead of raw coordinates — using a simple geo hierarchy:
 
 `/warp <Country> [City] [Street] [HouseNo]`
@@ -17,7 +19,7 @@ Works great for RP servers with countries, cities, landmarks, and addresses.
 
 ## Requirements
 
-* **Paper** 1.21.x (tested on 1.21.8)
+* **Paper** 26.x - 1.21.x
 * **Java 21+**
 
 ## Installation
@@ -29,10 +31,10 @@ Works great for RP servers with countries, cities, landmarks, and addresses.
 ## Commands
 
 ```
-/warp <Country> [City] [Street] [HouseNo]     # Teleport to an anchor or address
-/warp add <Country> [City] [Street] [HouseNo] # Create an anchor/address at your current position
-/warp list [Country] [City] [Street]          # Show existing entries at that level
-/warp remove <Country> [City] [Street] [No]   # Remove an anchor or address
+/warp <Country> [City] [Street] [HouseNo]      # Teleport to an anchor or address
+/warp add <Country> [City] [Street] [HouseNo]  # Create an anchor/address at your current position
+/warp list [Country] [City] [Street]           # Show existing entries at that level
+/warp remove <Country> [City] [Street] [No]    # Remove an anchor or address
 /warp export                                   # Save a timestamped backup of warps.yml
 ```
 
@@ -57,17 +59,6 @@ Examples:
 * Stored at `plugins/GeoWarp/warps.yml`
 * Backups at `plugins/GeoWarp/backups/warps-YYYY-MM-DD_HH-mm-ss.yml`
 
-## Build (Gradle)
-
-```bash
-# Windows (PowerShell)
-.\gradlew clean build
-
-# Linux/macOS
-./gradlew clean build
-```
-
-The JAR will be in `build/libs/`.
 
 ## Notes
 
